@@ -40,6 +40,21 @@ class APIClient:
         """
         return self.client.post(url, json=json, data=data, files=files)
 
+    def put(
+            self,
+            url: URL | str,
+            json: Any | None = None,
+            data: RequestData | None = None,
+    ) -> Response:
+        """
+        Выполняет PUT-запрос.
+        :param url: URL-адрес эндпоинта.
+        :param json: Тело запроса в формате JSON (словарь/список).
+        :param data: Тело запроса в виде form-data или x-www-form-urlencoded.
+        :return: Объект Response с данными ответа.
+        """
+        return self.client.put(url, json=json, data=data)
+
     def patch(self, url: URL | str, json: Any | None = None) -> Response:
         """
         Выполняет PATCH-запрос (частичное обновление данных).
