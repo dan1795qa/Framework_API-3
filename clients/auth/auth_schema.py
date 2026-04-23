@@ -29,9 +29,9 @@ class RegisterResponseSchema(BaseModel):
     email: str
     username: str
     display_name: str
-    bio: str
-    avatar_url: str
-    cover_url: str
+    bio: str | None
+    avatar_url: str | None
+    cover_url: str | None
     role: str
     is_active: bool
     is_verified: bool
