@@ -1,4 +1,4 @@
-from clients.auth.auth_schema import RegisterResponseSchema
+from clients.auth.auth_schema import RegisterResponseSchema, TokenSchema
 from tools.assertions.base import assert_equal, assert_is_true, assert_is_false, assert_is_zero
 
 
@@ -6,7 +6,7 @@ def assert_register_response(response: RegisterResponseSchema):
     """
     Проверяет корректность ответа при успешной авторизации.
 
-    :param response: Объект ответа с токенами авторизации.
+    :param response: Объект ответа с данными пользователями.
     :raises AssertionError: Если какое-либо из условий не выполняется.
     """
     assert_is_true(response.id, "id")
@@ -27,3 +27,15 @@ def assert_register_response(response: RegisterResponseSchema):
     assert_is_zero(response.posts_count, "posts_count")
     assert_is_false(response.is_following, "is_following")
     assert_is_false(response.is_followed_by, "is_followed_by")
+
+
+def assert_token_response(response: TokenSchema):
+    """
+    Проверяет корректность ответа при успешной авторизации.
+
+    :param response: Объект ответа с токенами авторизации.
+    :raises AssertionError: Если какое-либо из условий не выполняется.
+    """
+    assert_is_true(response.access_token, "access_token")
+    assert_is_true(response.refresh_token, "refresh_token")
+    assert_is_true(response.token_type, "token_type")
