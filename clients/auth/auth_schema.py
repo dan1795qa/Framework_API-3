@@ -49,8 +49,8 @@ class LoginRequestSchema(BaseModel):
     """Описание структуры запроса на аутентификацию."""
     model_config = ConfigDict(populate_by_name=True)
 
-    email: str = Field(default_factory=fake.email)
-    password: str = Field(default_factory=fake.password)
+    email: str
+    password: str
 
 
 class RefreshRequestSchema(BaseModel):
