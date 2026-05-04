@@ -1,5 +1,5 @@
 from httpx import Response
-from clients.auth.auth_schema import RegisterRequestSchema, LoginRequestSchema, TokenSchema
+from clients.auth.auth_schema import RegisterRequestSchema, LoginRequestSchema, TokenSchema, RefreshRequestSchema
 from clients.api_client import APIClient
 from clients.public_http_builder import get_public_http_client
 
@@ -23,6 +23,15 @@ class AuthClient(APIClient):
         :return: Ответ от сервера в виде объекта httpx.Response
         """
         return self.post("/api/auth/login", json=request.model_dump(by_alias=True))
+
+    def refresh_api(self, request: RefreshRequestSchema) -> Response:
+        """
+        Метод выполняет обновление токена.
+
+        :param request: Словарь с refresh_token.
+        :return: Ответ от сервера в виде объекта httpx.Response
+        """
+        return self.post("/api/auth/refresh", json=request.model_dump(by_alias=True))
 
     def login(self, request: LoginRequestSchema) -> TokenSchema:
         response = self.login_api(request)
