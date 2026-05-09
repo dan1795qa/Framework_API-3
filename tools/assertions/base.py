@@ -75,3 +75,14 @@ def assert_is_zero(actual: Any, name: str):
         f'Incorrect value: "{name}". '
         f'Expected 0 but got: {actual}'
     )
+
+
+def assert_is_empty(actual):
+    """
+    Проверяет, что фактическое значение отсутствует.
+
+    :param name: Название проверяемого значения.
+    :param actual: Фактическое значение.
+    :raises AssertionError: Если фактическое значение есть.
+        """
+    assert actual.content == b"", f"Ответ должен отсутствовать"

@@ -1,5 +1,5 @@
 from clients.auth.auth_schema import RegisterResponseSchema, TokenSchema
-from tools.assertions.base import assert_equal, assert_is_true, assert_is_false, assert_is_zero
+from tools.assertions.base import assert_equal, assert_is_true, assert_is_false, assert_is_zero, assert_is_empty
 
 
 def assert_register_response(response: RegisterResponseSchema):
@@ -39,3 +39,13 @@ def assert_token_response(response: TokenSchema):
     assert_is_true(response.access_token, "access_token")
     assert_is_true(response.refresh_token, "refresh_token")
     assert_is_true(response.token_type, "token_type")
+
+
+def assert_empty_response(response):
+    """
+    Проверяет корректность ответа при ds[jlt bp cbcntvs.
+
+    :param response: Ожидает пустой ответ.
+    :raises AssertionError: Если какое-либо из условий не выполняется.
+    """
+    assert_is_empty(response)
