@@ -59,7 +59,8 @@ class RefreshRequestSchema(BaseModel):
 
     refresh_token: str
 
-class LogooutRequestSchema(BaseModel):
+
+class LogoutRequestSchema(BaseModel):
     """Описание структуры запроса для разлогирования."""
     model_config = ConfigDict(populate_by_name=True)
 
