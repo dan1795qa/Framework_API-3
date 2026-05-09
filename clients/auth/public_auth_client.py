@@ -1,6 +1,8 @@
 from httpx import Response
-from clients.auth.auth_schema import RegisterRequestSchema, LoginRequestSchema, TokenSchema, RefreshRequestSchema
+from clients.auth.auth_schema import RegisterRequestSchema, LoginRequestSchema, TokenSchema, RefreshRequestSchema, \
+    LogoutRequestSchema, RegisterResponseSchema
 from clients.api_client import APIClient
+from clients.private_http_builder import get_private_http_client, AuthenticationUserSchema
 from clients.public_http_builder import get_public_http_client
 
 
@@ -33,12 +35,25 @@ class AuthClient(APIClient):
         """
         return self.post("/api/auth/refresh", json=request.model_dump(by_alias=True))
 
+    def logout_api(self, request: LogoutRequestSchema) -> Response:
+        """
+        Метод выполняет выход из системы.
+
+        :param request: Словарь с refresh_token.
+        :return: Ответ от сервера в виде объекта httpx.Response
+        """
+        return self.post("/api/auth/logout", json=request.model_dump(by_alias=True))
+
+    def register(self, request: RegisterRequestSchema) -> RegisterResponseSchema:
+        response = self.register_api(request)
+        return RegisterResponseSchema.model_validate_json(response.text)
+
     def login(self, request: LoginRequestSchema) -> TokenSchema:
         response = self.login_api(request)
         # return response.json()
         return TokenSchema.model_validate_json(response.text)
 
-# Добавляем builder для AuthClient
+
 def get_auth_client() -> AuthClient:
     """
     Функция создаёт экземпляр AuthenticationClient с уже настроенным HTTP-клиентом.
@@ -46,3 +61,12 @@ def get_auth_client() -> AuthClient:
     :return: Готовый к использованию AuthenticationClient.
     """
     return AuthClient(client=get_public_http_client())
+
+
+def get_private_auth_client(user: AuthenticationUserSchema) -> AuthClient:
+    """
+    Функция создаёт экземпляр AuthenticationClient с уже настроенным HTTP-клиентом.
+
+    :return: Готовый к использованию AuthenticationClient.
+    """
+    return AuthClient(client=get_private_http_client(user))
