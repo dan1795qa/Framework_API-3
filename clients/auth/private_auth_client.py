@@ -17,6 +17,14 @@ class PrivateAuthClient(APIClient):
         return self.post("/api/auth/logout", json=request.model_dump(by_alias=True))
 
 
+    def get_me_api(self) -> Response:
+        """
+        Метод выполняет выполняет запрос на получение информации о текущем авторизированном пользователе.
+
+        :return: Ответ от сервера в виде объекта httpx.Response
+        """
+        return self.get("/api/auth/me")
+
 def get_private_auth_client(token: AuthTokenSchema) -> PrivateAuthClient:
     """
     Функция создаёт экземпляр AuthenticationClient с уже настроенным HTTP-клиентом.
