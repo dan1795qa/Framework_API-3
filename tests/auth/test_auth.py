@@ -1,5 +1,6 @@
-from http import HTTPStatus
 import time
+from http import HTTPStatus
+import pytest
 
 from clients.auth.private_auth_client import PrivateAuthClient
 from clients.auth.public_auth_client import PublicAuthClient
@@ -12,6 +13,8 @@ from tools.assertions.base import assert_status_code
 from tools.assertions.schema import validate_json_schema
 
 
+@pytest.mark.authentication
+@pytest.mark.regression
 class TestAuth:
 
     def test_register(self, auth_client: PublicAuthClient):
@@ -39,7 +42,7 @@ class TestAuth:
         validate_json_schema(response.json(), response_model.model_json_schema())
 
     def test_refresh(self, auth_client: PublicAuthClient, function_login_user: LoginFixture):
-        # time.sleep(0.8)
+        time.sleep(1)
         request = RefreshRequestSchema(
             refresh_token=function_login_user.response.refresh_token
         )
