@@ -3,6 +3,7 @@ from clients.auth.auth_schema import RegisterRequestSchema, LoginRequestSchema, 
     RegisterResponseSchema
 from clients.api_client import APIClient
 from clients.public_http_builder import get_public_http_client
+from tools.routes import APIRoutes
 
 
 class PublicAuthClient(APIClient):
@@ -14,7 +15,7 @@ class PublicAuthClient(APIClient):
         :param request: Словарь с email, user_name, password и display_name.
         :return: Ответ от сервера в виде объекта httpx.Response
         """
-        return self.post("/api/auth/register", json=request.model_dump(by_alias=True))
+        return self.post(f"{APIRoutes.AUTH}/register", json=request.model_dump(by_alias=True))
 
     def login_api(self, request: LoginRequestSchema) -> Response:
         """
@@ -23,7 +24,7 @@ class PublicAuthClient(APIClient):
         :param request: Словарь с email и password.
         :return: Ответ от сервера в виде объекта httpx.Response
         """
-        return self.post("/api/auth/login", json=request.model_dump(by_alias=True))
+        return self.post(f"{APIRoutes.AUTH}/login", json=request.model_dump(by_alias=True))
 
     def refresh_api(self, request: RefreshRequestSchema) -> Response:
         """
@@ -32,7 +33,7 @@ class PublicAuthClient(APIClient):
         :param request: Словарь с refresh_token.
         :return: Ответ от сервера в виде объекта httpx.Response
         """
-        return self.post("/api/auth/refresh", json=request.model_dump(by_alias=True))
+        return self.post(f"{APIRoutes.AUTH}/refresh", json=request.model_dump(by_alias=True))
 
     def register(self, request: RegisterRequestSchema) -> RegisterResponseSchema:
         response = self.register_api(request)

@@ -2,6 +2,7 @@ from httpx import Response
 from clients.auth.auth_schema import LogoutRequestSchema
 from clients.api_client import APIClient
 from clients.private_http_builder import get_private_http_client, AuthTokenSchema
+from tools.routes import APIRoutes
 
 
 class PrivateAuthClient(APIClient):
@@ -14,7 +15,7 @@ class PrivateAuthClient(APIClient):
         :param request: Словарь с refresh_token.
         :return: Ответ от сервера в виде объекта httpx.Response
         """
-        return self.post("/api/auth/logout", json=request.model_dump(by_alias=True))
+        return self.post(f"{APIRoutes.AUTH}/logout", json=request.model_dump(by_alias=True))
 
 
     def get_me_api(self) -> Response:
@@ -23,7 +24,7 @@ class PrivateAuthClient(APIClient):
 
         :return: Ответ от сервера в виде объекта httpx.Response
         """
-        return self.get("/api/auth/me")
+        return self.get(f"{APIRoutes.AUTH}/me")
 
 def get_private_auth_client(token: AuthTokenSchema) -> PrivateAuthClient:
     """
